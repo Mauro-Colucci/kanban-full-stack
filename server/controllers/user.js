@@ -1,6 +1,6 @@
 import User from "../models/User.js";
 import CryptoJS from "crypto-js";
-import jwt from "jsonwebtoken.js";
+import jwt from "jsonwebtoken";
 
 export const register = async (req, res) => {
   const { username, password } = req.body;
