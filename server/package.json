@@ -1,11 +1,11 @@
 {
-  "name": "index",
+  "name": "",
   "version": "1.0.0",
   "description": "kanban",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "dev": "nodemon server.js"
   },
   "author": "",
   "license": "MIT",

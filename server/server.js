@@ -4,8 +4,9 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import cors from "cors";
 import { config } from "dotenv";
-import homeRoutes from "./routes/home.js";
+//import homeRoutes from "./routes/index.js";
 import connectDB from "./config/connectDB.js";
+import authRoutes from "./routes/auth.js";
 
 config({ path: "./config/.env" });
 const PORT = process.env.PORT || 3000;
@@ -19,7 +20,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(`/api/v1`, homeRoutes);
+//app.use(`/api/v1`, homeRoutes);
+app.use("/api/v1/auth", authRoutes);
 
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");
