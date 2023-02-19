@@ -15,7 +15,7 @@ router.use(validate);
 router.route("/").post(checkObj("boardId"), createSection);
 
 router
-  .route("/:secionId")
+  .route("/:sectionId")
   .put(checkObj("boardId"), checkObj("sectionId"), updateSection)
   .delete(checkObj("boardId"), checkObj("sectionId"), deleteSection);
 

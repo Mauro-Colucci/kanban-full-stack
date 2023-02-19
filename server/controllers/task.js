@@ -29,24 +29,24 @@ export const updateTask = async (req, res) => {
 
 export const updateTaskPosition = async (req, res) => {
   const {
-    resourceList,
-    destinationList,
-    resourceSectionId,
+    sourceTasks,
+    destinationTasks,
+    sourceSectionId,
     destinationSectionId,
   } = req.body;
-  const resourceListReverse = resourceList.reverse();
-  const destinationListReverse = destinationList.reverse();
+  const sourceTasksReverse = sourceTasks.reverse();
+  const destinationTasksReverse = destinationTasks.reverse();
   try {
-    if (resourceSectionId !== destinationSectionId) {
-      for (const key in resourceListReverse) {
-        await Task.findByIdAndUpdate(resourceListReverse[key].id, {
-          section: resourceSectionId,
+    if (sourceSectionId !== destinationSectionId) {
+      for (const key in sourceTasksReverse) {
+        await Task.findByIdAndUpdate(sourceTasksReverse[key].id, {
+          section: sourceSectionId,
           position: key,
         });
       }
     }
-    for (const key in destinationListReverse) {
-      await Task.findByIdAndUpdate(destinationListReverse[key].id, {
+    for (const key in destinationTasksReverse) {
+      await Task.findByIdAndUpdate(destinationTasksReverse[key].id, {
         section: destinationSectionId,
         position: key,
       });
