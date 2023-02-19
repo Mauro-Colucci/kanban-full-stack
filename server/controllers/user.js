@@ -31,7 +31,7 @@ export const login = async (req, res) => {
     const user = await User.findOne({ username }).select("password username");
     if (!user) {
       return res.status(401).json({
-        errors: [{ param: "username", msg: "Invalid username or password" }],
+        errors: [{ param: "username", msg: "Username not found" }],
       });
     }
 
@@ -42,7 +42,7 @@ export const login = async (req, res) => {
 
     if (decryptedPassword !== password) {
       return res.status(401).json({
-        errors: [{ param: "username", msg: "Invalid username or password" }],
+        errors: [{ param: "password", msg: "Wrong password" }],
       });
     }
 

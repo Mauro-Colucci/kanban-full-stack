@@ -1,12 +1,53 @@
 import { Box, Button, TextField } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 import { useState } from "react";
+import authApi from "../api/authApi";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [usernameErrText, setUsernameErrText] = useState("");
+  const [passwordErrText, setPasswordErrText] = useState("");
 
-  const handleSubmit = (e) => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setUsernameErrText("");
+    setPasswordErrText("");
+
+    const data = new FormData(e.target);
+    const username = data.get("username").trim();
+    const password = data.get("password").trim();
+
+    let err = false;
+
+    if (username === "") {
+      err = true;
+      setUsernameErrText("Please fill this field");
+    }
+    if (password === "") {
+      err = true;
+      setPasswordErrText("Please fill this field");
+    }
+
+    if (err) return;
+
+    setLoading(true);
+
+    try {
+      const res = await authApi.login({ username, password });
+      setLoading(false);
+      localStorage.setItem("token", res.token);
+      navigate("/");
+    } catch (err) {
+      const errors = err.data.errors;
+      errors.forEach((e) => {
+        if (e.param === "username") setUsernameErrText(e.msg);
+        if (e.param === "password") setPasswordErrText(e.msg);
+      });
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -19,6 +60,8 @@ const Login = () => {
           label="Username"
           name="username"
           disabled={loading}
+          error={Boolean(usernameErrText)}
+          helperText={usernameErrText}
         />
         <TextField
           margin="normal"
@@ -30,6 +73,8 @@ const Login = () => {
           type="password"
           disabled={loading}
           autoComplete="off"
+          error={passwordErrText !== ""}
+          helperText={passwordErrText}
         />
         <LoadingButton
           sx={{ mt: 3, mb: 2 }}

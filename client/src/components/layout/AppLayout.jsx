@@ -1,12 +1,15 @@
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import authUtils from "../../utils/authUtils";
 import Loading from "../common/Loading";
 import Sidebar from "../../components/common/Sidebar";
+import { setUser } from "../../state/userSlice";
 
 const AppLayout = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -15,6 +18,7 @@ const AppLayout = () => {
       if (!user) {
         navigate("/login");
       } else {
+        dispatch(setUser(user));
         setLoading(false);
       }
     };
